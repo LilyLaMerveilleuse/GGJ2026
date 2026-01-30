@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 9004874276661267700}
   - component: {fileID: 6666646804201420113}
   - component: {fileID: 3365897532145942006}
+  - component: {fileID: 1883997015048640136}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -211,7 +212,23 @@ MonoBehaviour:
   riseMultiplier: 2.5
   lowJumpMultiplier: 4
   groundCheck: {fileID: 3512375726642687857}
-  groundCheckSize: {x: 0.8, y: 0.1}
+  groundCheckWidth: 0.8
+  groundCheckDistance: 0.1
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
+--- !u!114 &1883997015048640136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4276478032081875072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36251c0e825fa1e4c88c48f8666cef50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionKey: 101
+  interactionPromptUI: {fileID: 0}
+  interactionPromptText: {fileID: 0}

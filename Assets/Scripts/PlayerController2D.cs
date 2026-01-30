@@ -37,8 +37,18 @@ namespace Bundles.SimplePlatformer2D.Scripts
         public bool IsFalling => _rb.velocity.y < 0;
         public Vector2 Velocity => _rb.velocity;
 
+        private static PlayerController2D _instance;
+
         private void Awake()
         {
+            if (_instance != null && _instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            _instance = this;
+            DontDestroyOnLoad(gameObject);
+
             _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _rb.freezeRotation = true;
