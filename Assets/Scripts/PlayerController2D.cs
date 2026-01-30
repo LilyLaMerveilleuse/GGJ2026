@@ -6,18 +6,15 @@ namespace Bundles.SimplePlatformer2D.Scripts
     public class PlayerController2D : MonoBehaviour
     {
         [Header("Movement")]
-        [SerializeField] private float moveSpeed = 8f;
-        [SerializeField] private float acceleration = 50f;
-        [SerializeField] private float deceleration = 50f;
-        [SerializeField] private bool useAcceleration = true;
+        [SerializeField] private float moveSpeed = 10f;
 
         [Header("Jump")]
-        [SerializeField] private float jumpForce = 14f;
-        [SerializeField] private int maxJumps = 2;
-        [SerializeField] private float jumpBufferTime = 0.1f;
+        [SerializeField] private float jumpForce = 18f;
+        [SerializeField] private float jumpBufferTime = 0.15f;
         [SerializeField] private float coyoteTime = 0.1f;
-        [SerializeField] private float fallMultiplier = 2.5f;
-        [SerializeField] private float lowJumpMultiplier = 2f;
+        [SerializeField] private float fallMultiplier = 5f;
+        [SerializeField] private float riseMultiplier = 2.5f;
+        [SerializeField] private float lowJumpMultiplier = 4f;
 
         [Header("Ground Check")]
         [SerializeField] private Transform groundCheck;
@@ -25,7 +22,6 @@ namespace Bundles.SimplePlatformer2D.Scripts
         [SerializeField] private LayerMask groundLayer;
 
         private Rigidbody2D _rb;
-        private int _jumpsRemaining;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         private bool _isGrounded;
@@ -97,7 +93,6 @@ namespace Bundles.SimplePlatformer2D.Scripts
 
         private void OnLand()
         {
-            _jumpsRemaining = maxJumps;
         }
 
         private void HandleTimers()
@@ -129,39 +124,18 @@ namespace Bundles.SimplePlatformer2D.Scripts
 
         private bool CanJump()
         {
-            return _coyoteTimeCounter > 0f || _jumpsRemaining > 0;
+            return _coyoteTimeCounter > 0f;
         }
 
         private void Jump()
         {
-            if (_coyoteTimeCounter > 0f)
-            {
-                _jumpsRemaining = maxJumps - 1;
-            }
-            else
-            {
-                _jumpsRemaining--;
-            }
-
             _coyoteTimeCounter = 0f;
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
         }
 
         private void Move()
         {
-            float targetSpeed = _horizontalInput * moveSpeed;
-
-            if (useAcceleration)
-            {
-                float accelRate = Mathf.Abs(_horizontalInput) > 0.01f ? acceleration : deceleration;
-                float speedDiff = targetSpeed - _rb.velocity.x;
-                float movement = speedDiff * accelRate * Time.fixedDeltaTime;
-                _rb.velocity = new Vector2(_rb.velocity.x + movement, _rb.velocity.y);
-            }
-            else
-            {
-                _rb.velocity = new Vector2(targetSpeed, _rb.velocity.y);
-            }
+            _rb.velocity = new Vector2(_horizontalInput * moveSpeed, _rb.velocity.y);
         }
 
         private void ApplyJumpPhysics()
@@ -173,6 +147,10 @@ namespace Bundles.SimplePlatformer2D.Scripts
             else if (_rb.velocity.y > 0 && !_jumpInputHeld)
             {
                 _rb.velocity += Vector2.up * (Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime);
+            }
+            else if (_rb.velocity.y > 0 && _jumpInputHeld)
+            {
+                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (riseMultiplier - 1) * Time.fixedDeltaTime);
             }
         }
 

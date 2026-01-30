@@ -203,16 +203,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7371722257f2614da8386919afc26c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
-  acceleration: 50
-  deceleration: 50
-  useAcceleration: 1
-  jumpForce: 8
-  maxJumps: 2
-  jumpBufferTime: 0.1
+  moveSpeed: 7
+  jumpForce: 14
+  jumpBufferTime: 0.15
   coyoteTime: 0.1
-  fallMultiplier: 2.5
-  lowJumpMultiplier: 2
+  fallMultiplier: 5
+  riseMultiplier: 2.5
+  lowJumpMultiplier: 4
   groundCheck: {fileID: 3512375726642687857}
   groundCheckSize: {x: 0.8, y: 0.1}
   groundLayer:
