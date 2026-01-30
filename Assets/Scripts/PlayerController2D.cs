@@ -18,7 +18,8 @@ namespace Bundles.SimplePlatformer2D.Scripts
 
         [Header("Ground Check")]
         [SerializeField] private Transform groundCheck;
-        [SerializeField] private Vector2 groundCheckSize = new Vector2(0.8f, 0.1f);
+        [SerializeField] private float groundCheckWidth = 0.8f;
+        [SerializeField] private float groundCheckDistance = 0.1f;
         [SerializeField] private LayerMask groundLayer;
 
         private Rigidbody2D _rb;
@@ -78,16 +79,11 @@ namespace Bundles.SimplePlatformer2D.Scripts
                 return;
             }
 
-            if (groundCheck != null)
-            {
-                _isGrounded = Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0f, groundLayer);
-            }
-            else
-            {
-                _isGrounded = Physics2D.OverlapBox(
-                    (Vector2)transform.position + Vector2.down * 0.5f,
-                    groundCheckSize, 0f, groundLayer);
-            }
+            Vector2 origin = groundCheck != null
+                ? (Vector2)groundCheck.position
+                : (Vector2)transform.position + Vector2.down * 0.5f;
+
+            _isGrounded = Physics2D.BoxCast(origin, new Vector2(groundCheckWidth, 0.02f), 0f, Vector2.down, groundCheckDistance, groundLayer);
 
             if (_isGrounded && !_wasGrounded)
                 OnLand();
@@ -163,7 +159,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
             Vector3 checkPos = groundCheck != null
                 ? groundCheck.position
                 : transform.position + Vector3.down * 0.5f;
-            Gizmos.DrawWireCube(checkPos, groundCheckSize);
+            Gizmos.DrawWireCube(checkPos + Vector3.down * groundCheckDistance * 0.5f, new Vector3(groundCheckWidth, groundCheckDistance, 0f));
         }
     }
 }
