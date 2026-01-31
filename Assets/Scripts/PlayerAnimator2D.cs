@@ -60,6 +60,31 @@ namespace Bundles.SimplePlatformer2D.Scripts
             _animator = GetComponentInChildren<Animator>();
         }
 
+        private void OnEnable()
+        {
+            if (_controller != null)
+            {
+                _controller.OnJump += HandleJump;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (_controller != null)
+            {
+                _controller.OnJump -= HandleJump;
+            }
+        }
+
+        private void HandleJump()
+        {
+            // Relancer l'animation de saut (pour le double saut notamment)
+            _currentJumpPhase = JumpPhase.Start;
+            _jumpStartTimer = jumpStartDuration;
+            _wasGrounded = false; // Évite que UpdateJumpPhase ne détecte une fausse transition
+            PlayJumpAnimation(JumpPhase.Start);
+        }
+
         private void Update()
         {
             HandleFlip();
@@ -153,12 +178,8 @@ namespace Bundles.SimplePlatformer2D.Scripts
                         newPhase = JumpPhase.Fall;
                     }
                 }
-                // Si on atterrit pendant le JumpStart
-                else if (isGrounded)
-                {
-                    newPhase = JumpPhase.Land;
-                    _landingTimer = landingDuration;
-                }
+                // Note: on n'interrompt pas JumpStart même si isGrounded,
+                // car on peut encore être détecté au sol juste après le saut
             }
             // Gestion du timer de montée
             else if (_currentJumpPhase == JumpPhase.Rise)

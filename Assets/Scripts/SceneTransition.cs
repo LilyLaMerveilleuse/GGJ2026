@@ -57,6 +57,12 @@ namespace Bundles.SimplePlatformer2D.Scripts
         {
             isTransitioning = true;
 
+            // Désactiver les contrôles du joueur
+            if (PlayerController2D.Instance != null)
+            {
+                PlayerController2D.Instance.ControlsEnabled = false;
+            }
+
             // Fade out
             if (screenFader != null)
             {
