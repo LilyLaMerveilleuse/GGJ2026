@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Epreuve_1.unity
     guid: ff5d26aa72202f74283edce29c2785ab
+  - enabled: 1
+    path: Assets/Scenes/Chemin_2.unity
+    guid: d151b307f6ef8d444a8e3069b50daec6
   m_configObjects: {}
