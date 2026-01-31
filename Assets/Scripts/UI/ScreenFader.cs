@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace Bundles.SimplePlatformer2D.Scripts.UI
@@ -15,6 +16,7 @@ namespace Bundles.SimplePlatformer2D.Scripts.UI
         [SerializeField] private float fadeDuration = 0.5f;
         [SerializeField] private Color fadeColor = Color.black;
         [SerializeField] private bool startFadedOut;
+        [SerializeField] private bool fadeInOnSceneLoad = true;
 
         private Image fadeImage;
         private bool isFading;
@@ -33,6 +35,29 @@ namespace Bundles.SimplePlatformer2D.Scripts.UI
             else
             {
                 SetAlpha(0f);
+            }
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            // Fade in automatique après chargement de scène
+            if (fadeInOnSceneLoad && fadeImage.color.a > 0f)
+            {
+                // S'assurer que l'écran est complètement noir avant le fade in
+                StopAllCoroutines();
+                SetAlpha(1f);
+                isFading = false;
+                FadeIn();
             }
         }
 

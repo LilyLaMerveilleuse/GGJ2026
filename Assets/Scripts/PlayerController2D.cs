@@ -38,7 +38,9 @@ namespace Bundles.SimplePlatformer2D.Scripts
         public bool IsMoving => Mathf.Abs(_rb.velocity.x) > 0.1f;
         public bool IsFalling => _rb.velocity.y < 0;
         public Vector2 Velocity => _rb.velocity;
+        public bool ControlsEnabled { get; set; } = true;
 
+        public static PlayerController2D Instance => _instance;
         private static PlayerController2D _instance;
 
         private void Awake()
@@ -73,6 +75,14 @@ namespace Bundles.SimplePlatformer2D.Scripts
 
         private void GatherInput()
         {
+            if (!ControlsEnabled)
+            {
+                _horizontalInput = 0f;
+                _jumpInputPressed = false;
+                _jumpInputHeld = false;
+                return;
+            }
+
             _horizontalInput = Input.GetAxisRaw("Horizontal");
 
             if (Input.GetButtonDown("Jump"))

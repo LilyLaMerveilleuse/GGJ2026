@@ -4,6 +4,7 @@ using SaveSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using Bundles.SimplePlatformer2D.Scripts;
 
 namespace Bundles.SimplePlatformer2D.Scripts.Player
 {
@@ -171,11 +172,24 @@ namespace Bundles.SimplePlatformer2D.Scripts.Player
             isDead = false;
             isInvincible = false;
             onHealthChanged?.Invoke(currentHealth);
+
+            // Réactiver les contrôles
+            if (PlayerController2D.Instance != null)
+            {
+                PlayerController2D.Instance.ControlsEnabled = true;
+            }
         }
 
         private void Die()
         {
             isDead = true;
+
+            // Désactiver les contrôles
+            if (PlayerController2D.Instance != null)
+            {
+                PlayerController2D.Instance.ControlsEnabled = false;
+            }
+
             onDeath?.Invoke();
             StartCoroutine(DeathSequence());
         }
