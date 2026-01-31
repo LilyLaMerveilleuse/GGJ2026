@@ -57,6 +57,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
             _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _rb.freezeRotation = true;
+            _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
             _airJumpsRemaining = 0;
         }
 
