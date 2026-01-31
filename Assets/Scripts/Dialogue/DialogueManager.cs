@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Constants;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,9 +16,6 @@ namespace Bundles.SimplePlatformer2D.Scripts.Dialogue
 
         [Header("References")]
         [SerializeField] private DialogueUI dialogueUI;
-
-        [Header("Input")]
-        [SerializeField] private KeyCode interactionKey = KeyCode.E;
 
         [Header("Events")]
         public UnityEvent onDialogueStart;
@@ -44,6 +42,15 @@ namespace Bundles.SimplePlatformer2D.Scripts.Dialogue
             DontDestroyOnLoad(gameObject);
         }
 
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+            StopTypewriter();
+        }
+
         private void Update()
         {
             if (!isDialogueActive) return;
@@ -56,7 +63,7 @@ namespace Bundles.SimplePlatformer2D.Scripts.Dialogue
             }
 
             // Use unscaledDeltaTime input check since time is paused
-            if (Input.GetKeyDown(interactionKey))
+            if (Input.GetButtonDown(GameConstants.Input.Interact))
             {
                 HandleInput();
             }

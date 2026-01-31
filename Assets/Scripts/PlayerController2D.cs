@@ -1,3 +1,4 @@
+using Constants;
 using Masks;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         [SerializeField] private float fallMultiplier = 5f;
         [SerializeField] private float riseMultiplier = 2.5f;
         [SerializeField] private float lowJumpMultiplier = 4f;
+        [SerializeField] private float fastFallMultiplier = 8f;
 
         [Header("Ground Check")]
         [SerializeField] private Transform groundCheck;
@@ -32,13 +34,16 @@ namespace Bundles.SimplePlatformer2D.Scripts
         private float _horizontalInput;
         private bool _jumpInputPressed;
         private bool _jumpInputHeld;
+        private bool _fastFallHeld;
         private int _airJumpsRemaining;
 
         public bool IsGrounded => _isGrounded;
-        public bool IsMoving => Mathf.Abs(_rb.velocity.x) > 0.1f;
+        public bool IsMoving => Mathf.Abs(_rb.velocity.x) > GameConstants.Physics.VelocityThreshold;
         public bool IsFalling => _rb.velocity.y < 0;
         public Vector2 Velocity => _rb.velocity;
+        public bool ControlsEnabled { get; set; } = true;
 
+        public static PlayerController2D Instance => _instance;
         private static PlayerController2D _instance;
 
         private void Awake()
@@ -54,7 +59,16 @@ namespace Bundles.SimplePlatformer2D.Scripts
             _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _rb.freezeRotation = true;
+            _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
             _airJumpsRemaining = 0;
+        }
+
+        private void OnDestroy()
+        {
+            if (_instance == this)
+            {
+                _instance = null;
+            }
         }
 
         private void Update()
@@ -73,12 +87,22 @@ namespace Bundles.SimplePlatformer2D.Scripts
 
         private void GatherInput()
         {
-            _horizontalInput = Input.GetAxisRaw("Horizontal");
+            if (!ControlsEnabled)
+            {
+                _horizontalInput = 0f;
+                _jumpInputPressed = false;
+                _jumpInputHeld = false;
+                _fastFallHeld = false;
+                return;
+            }
 
-            if (Input.GetButtonDown("Jump"))
+            _horizontalInput = Input.GetAxisRaw(GameConstants.Input.Horizontal);
+
+            if (Input.GetButtonDown(GameConstants.Input.Jump))
                 _jumpInputPressed = true;
 
-            _jumpInputHeld = Input.GetButton("Jump");
+            _jumpInputHeld = Input.GetButton(GameConstants.Input.Jump);
+            _fastFallHeld = Input.GetAxisRaw(GameConstants.Input.Vertical) < -GameConstants.Input.AxisThreshold;
         }
 
         private void CheckGround()
@@ -86,7 +110,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
             _wasGrounded = _isGrounded;
 
             // Ne pas considérer grounded si on monte (évite reset des sauts en traversant one-way platforms)
-            if (_rb.velocity.y > 0.1f)
+            if (_rb.velocity.y > GameConstants.Physics.VelocityThreshold)
             {
                 _isGrounded = false;
                 return;
@@ -96,7 +120,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
                 ? (Vector2)groundCheck.position
                 : (Vector2)transform.position + Vector2.down * 0.5f;
 
-            _isGrounded = Physics2D.BoxCast(origin, new Vector2(groundCheckWidth, 0.02f), 0f, Vector2.down, groundCheckDistance, groundLayer);
+            _isGrounded = Physics2D.BoxCast(origin, new Vector2(groundCheckWidth, GameConstants.Physics.GroundCheckBoxHeight), 0f, Vector2.down, groundCheckDistance, groundLayer);
 
             if (_isGrounded && !_wasGrounded)
                 OnLand();
@@ -198,7 +222,14 @@ namespace Bundles.SimplePlatformer2D.Scripts
         {
             if (_rb.velocity.y < 0)
             {
-                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime);
+                // Fast fall si le joueur maintient bas
+                float multiplier = _fastFallHeld ? fastFallMultiplier : fallMultiplier;
+                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (multiplier - 1) * Time.fixedDeltaTime);
+            }
+            else if (_rb.velocity.y > 0 && _fastFallHeld)
+            {
+                // Annule la montée si le joueur maintient bas
+                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (fastFallMultiplier - 1) * Time.fixedDeltaTime);
             }
             else if (_rb.velocity.y > 0 && !_jumpInputHeld)
             {

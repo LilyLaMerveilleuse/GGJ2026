@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Constants;
 using Masks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -48,7 +49,7 @@ namespace SaveSystem
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            bool isMainMenu = scene.name == "Main Menu";
+            bool isMainMenu = scene.name == GameConstants.Scenes.MainMenu;
 
             // Gérer les objets persistants selon la scène
             SetPersistentObjectsActive(!isMainMenu);
@@ -130,7 +131,7 @@ namespace SaveSystem
             // Réactiver les objets persistants avant de charger la scène
             SetPersistentObjectsActive(true);
 
-            CurrentSave = SaveManager.Instance.CreateNewSave(slotIndex, "Village");
+            CurrentSave = SaveManager.Instance.CreateNewSave(slotIndex, GameConstants.Scenes.Village);
             ShouldLoadPositionFromSave = false;
             sessionStartTime = Time.realtimeSinceStartup;
 
@@ -138,7 +139,7 @@ namespace SaveSystem
             EnsureMaskInventoryExists();
             MaskInventory.Instance.Clear();
 
-            SceneManager.LoadScene("Village");
+            SceneManager.LoadScene(GameConstants.Scenes.Village);
         }
 
         /// <summary>
@@ -240,7 +241,7 @@ namespace SaveSystem
             CurrentSave = null;
             ShouldLoadPositionFromSave = false;
 
-            SceneManager.LoadScene("Main Menu");
+            SceneManager.LoadScene(GameConstants.Scenes.MainMenu);
         }
     }
 }

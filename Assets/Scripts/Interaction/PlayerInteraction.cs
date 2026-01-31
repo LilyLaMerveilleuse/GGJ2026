@@ -1,3 +1,4 @@
+using Constants;
 using UnityEngine;
 using TMPro;
 
@@ -9,15 +10,18 @@ namespace Bundles.SimplePlatformer2D.Scripts.Interaction
     /// </summary>
     public class PlayerInteraction : MonoBehaviour
     {
-        [Header("Input")]
-        [SerializeField] private KeyCode interactionKey = KeyCode.E;
-
         [Header("UI References")]
         [SerializeField] private GameObject interactionPromptUI;
         [SerializeField] private TextMeshProUGUI interactionPromptText;
 
         private Interactable currentInteractable;
         private bool canInteract = true;
+        private Camera _mainCamera;
+
+        private void Awake()
+        {
+            _mainCamera = Camera.main;
+        }
 
         private void Update()
         {
@@ -28,7 +32,7 @@ namespace Bundles.SimplePlatformer2D.Scripts.Interaction
                 return;
             }
 
-            if (currentInteractable != null && canInteract && Input.GetKeyDown(interactionKey))
+            if (currentInteractable != null && canInteract && Input.GetButtonDown(GameConstants.Input.Interact))
             {
                 currentInteractable.Interact();
             }
@@ -105,11 +109,11 @@ namespace Bundles.SimplePlatformer2D.Scripts.Interaction
 
         private void UpdatePromptPosition(Interactable interactable)
         {
-            if (interactionPromptUI == null || Camera.main == null) return;
+            if (interactionPromptUI == null || _mainCamera == null) return;
 
             // Convert world position to screen position
             Vector3 worldPos = interactable.transform.position + (Vector3)interactable.PromptOffset;
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+            Vector3 screenPos = _mainCamera.WorldToScreenPoint(worldPos);
 
             interactionPromptUI.transform.position = screenPos;
         }

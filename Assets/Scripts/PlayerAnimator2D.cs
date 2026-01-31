@@ -1,3 +1,4 @@
+using Constants;
 using UnityEngine;
 
 namespace Bundles.SimplePlatformer2D.Scripts
@@ -14,10 +15,15 @@ namespace Bundles.SimplePlatformer2D.Scripts
         [SerializeField] private string groundedParam = "IsGrounded";
         [SerializeField] private string verticalVelocityParam = "VerticalVelocity";
 
+        [Header("Animation States (pour forcer les transitions)")]
+        [SerializeField] private string idleState = "Idle";
+        [SerializeField] private string walkState = "Walk";
+
         private PlayerController2D _controller;
         private SpriteRenderer _spriteRenderer;
         private Animator _animator;
-        private bool _facingRight = true;
+        private bool _facingRight = false;
+        private bool _wasMoving = false;
 
         private void Awake()
         {
@@ -36,7 +42,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         {
             if (!flipSprite) return;
 
-            float horizontal = Input.GetAxisRaw("Horizontal");
+            float horizontal = Input.GetAxisRaw(GameConstants.Input.Horizontal);
 
             if ((horizontal > 0 && !_facingRight) || (horizontal < 0 && _facingRight))
             {
@@ -64,7 +70,17 @@ namespace Bundles.SimplePlatformer2D.Scripts
         {
             if (_animator == null) return;
 
-            _animator.SetFloat(speedParam, Mathf.Abs(_controller.Velocity.x));
+            float horizontalInput = Input.GetAxisRaw(GameConstants.Input.Horizontal);
+            bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
+
+            // Force le changement d'animation immédiat lors des transitions idle/walk
+            if (isMoving != _wasMoving && _controller.IsGrounded)
+            {
+                _animator.Play(isMoving ? walkState : idleState, 0, 0f);
+            }
+            _wasMoving = isMoving;
+
+            _animator.SetFloat(speedParam, Mathf.Abs(horizontalInput));
             _animator.SetBool(groundedParam, _controller.IsGrounded);
             _animator.SetFloat(verticalVelocityParam, _controller.Velocity.y);
         }

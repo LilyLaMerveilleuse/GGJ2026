@@ -1,3 +1,4 @@
+using Constants;
 using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,10 +13,10 @@ namespace UI
     {
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetButtonDown(GameConstants.Input.Cancel))
             {
                 // Ne pas réagir si on est déjà au menu principal
-                if (SceneManager.GetActiveScene().name == "Main Menu")
+                if (SceneManager.GetActiveScene().name == GameConstants.Scenes.MainMenu)
                 {
                     return;
                 }
@@ -40,7 +41,7 @@ namespace UI
             else
             {
                 // Pas de partie en cours, juste charger le menu
-                SceneManager.LoadScene("Main Menu");
+                SceneManager.LoadScene(GameConstants.Scenes.MainMenu);
             }
         }
     }
