@@ -14,6 +14,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
     {
         [Header("Destination")]
         [SerializeField] private string targetSceneName;
+        [SerializeField] private string targetEntryPointId = "default";
 
         [Header("Settings")]
         [SerializeField] private bool saveBeforeTransition = true;
@@ -78,6 +79,12 @@ namespace Bundles.SimplePlatformer2D.Scripts
                     GameState.Instance.UpdatePlayerPosition(player.transform.position);
                 }
                 GameState.Instance.SaveCurrentGame();
+            }
+
+            // Stocker l'ID de destination
+            if (GameState.Instance != null)
+            {
+                GameState.Instance.SetTargetEntryPoint(targetEntryPointId);
             }
 
             // Charger la nouvelle scène

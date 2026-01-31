@@ -117,7 +117,7 @@ namespace UI.MainMenu
                 }
 
                 confirmationPopup.Show(
-                    "Commencer une nouvelle partie ?",
+                    "Start a new game ?",
                     () => OnNewGameRequested?.Invoke(slotIndex)
                 );
             }
@@ -132,7 +132,7 @@ namespace UI.MainMenu
             }
 
             confirmationPopup.Show(
-                "Supprimer cette sauvegarde ?",
+                "Delete this save file ?",
                 () =>
                 {
                     SaveManager.Instance.DeleteSave(slotIndex);

@@ -1,4 +1,5 @@
 using System.Collections;
+using SaveSystem;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Cinemachine;
@@ -40,8 +41,14 @@ namespace Bundles.SimplePlatformer2D.Scripts.CameraSystem
 
         private IEnumerator LinkConfinerDelayed()
         {
-            // Wait a frame for CameraBounds to register
+            // Wait a frame for entry points and CameraBounds to register
             yield return null;
+
+            // Téléporter le joueur au bon entry point
+            if (GameState.Instance != null)
+            {
+                GameState.Instance.TeleportPlayerToEntryPoint();
+            }
 
             // Téléporter la caméra sur le joueur
             TeleportCameraToPlayer();

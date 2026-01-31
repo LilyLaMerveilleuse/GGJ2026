@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Bundles.SimplePlatformer2D.Scripts;
 using Constants;
 using Masks;
 using UnityEngine;
@@ -22,6 +23,11 @@ namespace SaveSystem
         /// Indique si une position doit être chargée depuis la sauvegarde.
         /// </summary>
         public bool ShouldLoadPositionFromSave { get; set; }
+
+        /// <summary>
+        /// ID du point d'entrée cible pour la prochaine transition.
+        /// </summary>
+        public string TargetEntryPointId { get; private set; }
 
         private float sessionStartTime;
         private List<GameObject> persistentGameplayObjects = new List<GameObject>();
@@ -145,6 +151,9 @@ namespace SaveSystem
             EnsureMaskInventoryExists();
             MaskInventory.Instance.Clear();
 
+            // Définir le point d'entrée pour la nouvelle partie
+            SetTargetEntryPoint("Entrance");
+
             SceneManager.LoadScene(GameConstants.Scenes.Village);
         }
 
@@ -248,6 +257,46 @@ namespace SaveSystem
             ShouldLoadPositionFromSave = false;
 
             SceneManager.LoadScene(GameConstants.Scenes.MainMenu);
+        }
+
+        /// <summary>
+        /// Définit le point d'entrée cible pour la prochaine transition.
+        /// </summary>
+        public void SetTargetEntryPoint(string entryPointId)
+        {
+            TargetEntryPointId = entryPointId;
+            ShouldLoadPositionFromSave = false; // On utilise l'entry point, pas la position sauvegardée
+        }
+
+        /// <summary>
+        /// Téléporte le joueur au point d'entrée approprié et configure le spawn point.
+        /// </summary>
+        public void TeleportPlayerToEntryPoint()
+        {
+            var player = GameObject.FindWithTag("Player");
+            if (player == null) return;
+
+            // Trouver l'entry point
+            var entryPoint = SceneEntryPoint.GetById(TargetEntryPointId);
+            if (entryPoint != null)
+            {
+                player.transform.position = entryPoint.transform.position;
+
+                // Activer le spawn point associé
+                if (entryPoint.AssociatedSpawnPoint != null)
+                {
+                    // Le spawn point s'enregistre automatiquement via OnEnable
+                    // On force juste sa réactivation
+                    entryPoint.AssociatedSpawnPoint.gameObject.SetActive(true);
+                }
+            }
+            else if (SceneEntryPoint.Default != null)
+            {
+                player.transform.position = SceneEntryPoint.Default.transform.position;
+            }
+
+            // Reset l'ID pour la prochaine fois
+            TargetEntryPointId = null;
         }
     }
 }

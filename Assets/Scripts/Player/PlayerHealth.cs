@@ -99,9 +99,9 @@ namespace Bundles.SimplePlatformer2D.Scripts.Player
 
         private void TeleportToEntryPoint()
         {
-            if (SceneEntryPoint.Current != null)
+            if (SceneEntryPoint.Default != null)
             {
-                transform.position = SceneEntryPoint.Current.transform.position;
+                transform.position = SceneEntryPoint.Default.transform.position;
             }
         }
 
