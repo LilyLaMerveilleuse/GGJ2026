@@ -24,9 +24,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Antre_Boss.unity
     guid: ca104b336859a954d808152c52b65a9f
   - enabled: 1
-    path: Assets/Scenes/Sanctuaire_1.unity
+    path: Assets/Scenes/sanctuaire_mask.unity
     guid: 59c44688add72f84385bbd411831ea42
   - enabled: 1
-    path: Assets/Scenes Sandbox/Sandbox Juju.unity
-    guid: 08536af2c0d70c54d8cdd8db54a39924
+    path: Assets/Scenes/Chemin_1.unity
+    guid: 4415a37992e63704199f3615e524eb00
   m_configObjects: {}
