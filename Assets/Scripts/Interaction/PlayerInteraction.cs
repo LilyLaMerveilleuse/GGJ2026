@@ -99,13 +99,13 @@ namespace Bundles.SimplePlatformer2D.Scripts.Interaction
         {
             if (currentInteractable != null && interactionPromptUI != null && interactionPromptUI.activeSelf)
             {
-                UpdatePromptPosition(currentInteractable);
+                    UpdatePromptPosition(currentInteractable);
             }
         }
 
         private void UpdatePromptPosition(Interactable interactable)
         {
-            if (interactionPromptUI == null) return;
+            if (interactionPromptUI == null || Camera.main == null) return;
 
             // Convert world position to screen position
             Vector3 worldPos = interactable.transform.position + (Vector3)interactable.PromptOffset;

@@ -79,47 +79,8 @@ namespace SaveSystem
             // Nettoyer les références nulles (objets détruits)
             persistentGameplayObjects.RemoveAll(obj => obj == null);
 
-            // Si on active et la liste est vide, chercher les objets
-            if (active && persistentGameplayObjects.Count == 0)
-            {
-                // Chercher le joueur
-                var player = GameObject.FindWithTag("Player");
-                if (player != null)
-                {
-                    persistentGameplayObjects.Add(player);
-                }
-
-                // Chercher les objets "Persist"
-                var persistObjects = GameObject.FindGameObjectsWithTag("Persist");
-                foreach (var obj in persistObjects)
-                {
-                    if (obj.GetComponent<GameState>() == null && obj.GetComponent<SaveManager>() == null)
-                    {
-                        persistentGameplayObjects.Add(obj);
-                    }
-                }
-            }
-
-            // Si on désactive, d'abord collecter les objets actifs
-            if (!active)
-            {
-                var player = GameObject.FindWithTag("Player");
-                if (player != null && !persistentGameplayObjects.Contains(player))
-                {
-                    persistentGameplayObjects.Add(player);
-                }
-
-                var persistObjects = GameObject.FindGameObjectsWithTag("Persist");
-                foreach (var obj in persistObjects)
-                {
-                    if (obj.GetComponent<GameState>() == null &&
-                        obj.GetComponent<SaveManager>() == null &&
-                        !persistentGameplayObjects.Contains(obj))
-                    {
-                        persistentGameplayObjects.Add(obj);
-                    }
-                }
-            }
+            // Collecter les objets persistants
+            CollectPersistentObjects();
 
             // Activer/désactiver tous les objets enregistrés
             foreach (var obj in persistentGameplayObjects)
@@ -128,6 +89,36 @@ namespace SaveSystem
                 {
                     obj.SetActive(active);
                 }
+            }
+        }
+
+        private void CollectPersistentObjects()
+        {
+            // Chercher le joueur
+            AddObjectByTag("Player");
+
+            // Chercher la caméra principale
+            AddObjectByTag("MainCamera");
+
+            // Chercher les objets "Persist"
+            var persistObjects = GameObject.FindGameObjectsWithTag("Persist");
+            foreach (var obj in persistObjects)
+            {
+                if (obj.GetComponent<GameState>() == null &&
+                    obj.GetComponent<SaveManager>() == null &&
+                    !persistentGameplayObjects.Contains(obj))
+                {
+                    persistentGameplayObjects.Add(obj);
+                }
+            }
+        }
+
+        private void AddObjectByTag(string tag)
+        {
+            var obj = GameObject.FindWithTag(tag);
+            if (obj != null && !persistentGameplayObjects.Contains(obj))
+            {
+                persistentGameplayObjects.Add(obj);
             }
         }
 
