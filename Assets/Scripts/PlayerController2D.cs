@@ -1,3 +1,4 @@
+using Masks;
 using UnityEngine;
 
 namespace Bundles.SimplePlatformer2D.Scripts
@@ -31,6 +32,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         private float _horizontalInput;
         private bool _jumpInputPressed;
         private bool _jumpInputHeld;
+        private int _airJumpsRemaining;
 
         public bool IsGrounded => _isGrounded;
         public bool IsMoving => Mathf.Abs(_rb.velocity.x) > 0.1f;
@@ -52,6 +54,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
             _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<Collider2D>();
             _rb.freezeRotation = true;
+            _airJumpsRemaining = 0;
         }
 
         private void Update()
@@ -101,14 +104,35 @@ namespace Bundles.SimplePlatformer2D.Scripts
 
         private void OnLand()
         {
+            // Réinitialiser les sauts en l'air
+            _airJumpsRemaining = GetMaxAirJumps();
+        }
+
+        private int GetMaxAirJumps()
+        {
+            int airJumps = 0;
+
+            // Le masque DoubleJump donne 1 saut en l'air
+            if (MaskInventory.Instance != null && MaskInventory.Instance.HasMask(MaskType.DoubleJump))
+            {
+                airJumps += 1;
+            }
+
+            return airJumps;
         }
 
         private void HandleTimers()
         {
             if (_isGrounded)
+            {
                 _coyoteTimeCounter = coyoteTime;
+                // Réinitialiser les sauts en l'air tant qu'on est au sol
+                _airJumpsRemaining = GetMaxAirJumps();
+            }
             else
+            {
                 _coyoteTimeCounter -= Time.deltaTime;
+            }
         }
 
         private void HandleJumpBuffer()
@@ -132,13 +156,36 @@ namespace Bundles.SimplePlatformer2D.Scripts
 
         private bool CanJump()
         {
-            return _coyoteTimeCounter > 0f;
-        }
+            // Saut normal (au sol ou coyote time)
+            if (_coyoteTimeCounter > 0f)
+            {
+                return true;
+            }
 
+            // Saut en l'air (double saut)
+            if (_airJumpsRemaining > 0)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         private void Jump()
         {
-            _coyoteTimeCounter = 0f;
+            // Déterminer si c'est un saut au sol ou en l'air
+            bool isGroundJump = _coyoteTimeCounter > 0f;
+
+            if (isGroundJump)
+            {
+                _coyoteTimeCounter = 0f;
+            }
+            else
+            {
+                // Saut en l'air - consommer un saut
+                _airJumpsRemaining--;
+            }
+
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
         }
 
