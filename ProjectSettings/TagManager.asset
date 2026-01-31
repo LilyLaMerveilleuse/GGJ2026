@@ -42,6 +42,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Paralax7
+    uniqueID: 662749783
+    locked: 0
+  - name: Paralax6
+    uniqueID: 1873891311
+    locked: 0
+  - name: Paralax5
+    uniqueID: 59931239
+    locked: 0
+  - name: Paralax4
+    uniqueID: 3136692713
+    locked: 0
+  - name: Paralax3
+    uniqueID: 1935869723
+    locked: 0
   - name: Paralax2
     uniqueID: 2744398839
     locked: 0
