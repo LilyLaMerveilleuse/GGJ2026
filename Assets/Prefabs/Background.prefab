@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79a21a93b429df342aab9457383331eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxEffectX: 0.5
+  parallaxEffectX: 0.1
   parallaxEffectY: 0
   infiniteHorizontal: 1
   infiniteVertical: 0
