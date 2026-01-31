@@ -306,6 +306,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 409175271727987783, guid: 3fa9b6add0246ad479de28bcd1a174e3, type: 3}
+      propertyPath: startFadedOut
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1923369162791060404, guid: 3fa9b6add0246ad479de28bcd1a174e3, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -392,6 +396,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6616750669615122473, guid: 3fa9b6add0246ad479de28bcd1a174e3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9217592487878408600, guid: 3fa9b6add0246ad479de28bcd1a174e3, type: 3}
+      propertyPath: m_Color.a
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -651,6 +659,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 160401299700326208, guid: 25ac31fe0905fdb429c032c07ffcf0f1, type: 3}
+      propertyPath: orthographic size
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4800496847697613858, guid: 25ac31fe0905fdb429c032c07ffcf0f1, type: 3}
       propertyPath: m_Name
       value: MainCamera

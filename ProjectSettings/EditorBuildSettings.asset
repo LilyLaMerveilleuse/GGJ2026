@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: f5cbb4f7a38ad4a44b30817b7df8441c
   - enabled: 1
+    path: Assets/Scenes Sandbox/Sandbox Juju.unity
+    guid: 08536af2c0d70c54d8cdd8db54a39924
+  - enabled: 1
     path: Assets/Scenes/Village.unity
     guid: 330f09499d2e4e1488289b74b9625622
   m_configObjects: {}

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Masks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -142,6 +143,10 @@ namespace SaveSystem
             ShouldLoadPositionFromSave = false;
             sessionStartTime = Time.realtimeSinceStartup;
 
+            // Réinitialiser l'inventaire de masques
+            EnsureMaskInventoryExists();
+            MaskInventory.Instance.Clear();
+
             SceneManager.LoadScene("Village");
         }
 
@@ -164,7 +169,23 @@ namespace SaveSystem
             ShouldLoadPositionFromSave = true;
             sessionStartTime = Time.realtimeSinceStartup;
 
+            // Charger les masques depuis la sauvegarde
+            EnsureMaskInventoryExists();
+            MaskInventory.Instance.LoadFromSaveData(save);
+
             SceneManager.LoadScene(save.currentScene);
+        }
+
+        /// <summary>
+        /// S'assure que MaskInventory existe.
+        /// </summary>
+        private void EnsureMaskInventoryExists()
+        {
+            if (MaskInventory.Instance == null)
+            {
+                var maskInvObj = new GameObject("MaskInventory");
+                maskInvObj.AddComponent<MaskInventory>();
+            }
         }
 
         /// <summary>
@@ -182,6 +203,12 @@ namespace SaveSystem
             var sessionTime = Time.realtimeSinceStartup - sessionStartTime;
             CurrentSave.totalPlayTime += sessionTime;
             sessionStartTime = Time.realtimeSinceStartup;
+
+            // Synchroniser les masques
+            if (MaskInventory.Instance != null)
+            {
+                MaskInventory.Instance.SyncToSaveData();
+            }
 
             // Sauvegarde sur disque
             SaveManager.Instance.Save(CurrentSave);

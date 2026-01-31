@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace SaveSystem
 {
@@ -14,6 +15,7 @@ namespace SaveSystem
         public float totalPlayTime;     // Secondes
         public string currentScene;     // Nom de la scène
         public float posX, posY, posZ;  // Position du joueur
+        public List<int> ownedMasks;    // IDs des masques possédés
 
         public SaveData()
         {
@@ -23,6 +25,7 @@ namespace SaveSystem
             totalPlayTime = 0f;
             currentScene = "Village";
             posX = posY = posZ = 0f;
+            ownedMasks = new List<int>();
         }
 
         public SaveData(int slot) : this()
