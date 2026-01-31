@@ -508,6 +508,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1011193254304027803, guid: 06646a1ea33179e4380db04c08a9ad9d, type: 3}
+      propertyPath: targetSceneName
+      value: Sanctuaire_1
+      objectReference: {fileID: 0}
     - target: {fileID: 3285806272498229588, guid: 06646a1ea33179e4380db04c08a9ad9d, type: 3}
       propertyPath: m_Name
       value: LoadingZone
