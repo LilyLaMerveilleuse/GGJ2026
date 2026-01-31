@@ -7,8 +7,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
     {
         Grounded,
         Start,      // Initiation
-        Rise,       // Montée
-        Apex,       // Apogée
+        Apex,       // Apogée / Montée
         Fall,       // Chute
         Land        // Atterrissage
     }
@@ -31,7 +30,6 @@ namespace Bundles.SimplePlatformer2D.Scripts
 
         [Header("Animation States - Saut")]
         [SerializeField] private string jumpStartState = "JumpStart";
-        [SerializeField] private string jumpRiseState = "JumpRise";
         [SerializeField] private string jumpApexState = "JumpApex";
         [SerializeField] private string jumpFallState = "JumpFall";
         [SerializeField] private string jumpLandState = "JumpLand";
@@ -40,7 +38,6 @@ namespace Bundles.SimplePlatformer2D.Scripts
         [Header("Seuils de détection")]
         [SerializeField] private float apexThreshold = 10f;
         [SerializeField] private float jumpStartDuration = 0.1f;
-        [SerializeField] private float jumpRiseDuration = 0.5f;
         [SerializeField] private float landingDuration = 0.1f;
 
         private PlayerController2D _controller;
@@ -51,7 +48,6 @@ namespace Bundles.SimplePlatformer2D.Scripts
         private bool _wasGrounded = true;
         private JumpPhase _currentJumpPhase = JumpPhase.Grounded;
         private float _jumpStartTimer = 0f;
-        private float _jumpRiseTimer = 0f;
         private float _landingTimer = 0f;
         private bool _wasGliding = false;
 
@@ -185,11 +181,10 @@ namespace Bundles.SimplePlatformer2D.Scripts
                 _jumpStartTimer -= Time.deltaTime;
                 if (_jumpStartTimer <= 0f)
                 {
-                    // Passer à Rise ou Fall selon la vélocité
+                    // Passer à Apex ou Fall selon la vélocité
                     if (velocityY > 0)
                     {
-                        newPhase = JumpPhase.Rise;
-                        _jumpRiseTimer = jumpRiseDuration;
+                        newPhase = JumpPhase.Apex;
                     }
                     else
                     {
@@ -198,22 +193,6 @@ namespace Bundles.SimplePlatformer2D.Scripts
                 }
                 // Note: on n'interrompt pas JumpStart même si isGrounded,
                 // car on peut encore être détecté au sol juste après le saut
-            }
-            // Gestion du timer de montée
-            else if (_currentJumpPhase == JumpPhase.Rise)
-            {
-                _jumpRiseTimer -= Time.deltaTime;
-                // Timer expiré ou vélocité négative → passer à Apex
-                if (_jumpRiseTimer <= 0f || velocityY <= 0)
-                {
-                    newPhase = JumpPhase.Apex;
-                }
-                // Si on atterrit pendant le Rise
-                else if (isGrounded)
-                {
-                    newPhase = JumpPhase.Land;
-                    _landingTimer = landingDuration;
-                }
             }
             // Vient d'atterrir
             else if (isGrounded && !_wasGrounded)
@@ -263,7 +242,6 @@ namespace Bundles.SimplePlatformer2D.Scripts
             string stateName = phase switch
             {
                 JumpPhase.Start => jumpStartState,
-                JumpPhase.Rise => jumpRiseState,
                 JumpPhase.Apex => jumpApexState,
                 JumpPhase.Fall => jumpFallState,
                 JumpPhase.Land => jumpLandState,
