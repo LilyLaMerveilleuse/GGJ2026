@@ -1,3 +1,4 @@
+using Constants;
 using UnityEngine;
 
 namespace Bundles.SimplePlatformer2D.Scripts
@@ -41,7 +42,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         {
             if (!flipSprite) return;
 
-            float horizontal = Input.GetAxisRaw("Horizontal");
+            float horizontal = Input.GetAxisRaw(GameConstants.Input.Horizontal);
 
             if ((horizontal > 0 && !_facingRight) || (horizontal < 0 && _facingRight))
             {
@@ -69,7 +70,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         {
             if (_animator == null) return;
 
-            float horizontalInput = Input.GetAxisRaw("Horizontal");
+            float horizontalInput = Input.GetAxisRaw(GameConstants.Input.Horizontal);
             bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
 
             // Force le changement d'animation immédiat lors des transitions idle/walk

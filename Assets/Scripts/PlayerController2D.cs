@@ -17,6 +17,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         [SerializeField] private float fallMultiplier = 5f;
         [SerializeField] private float riseMultiplier = 2.5f;
         [SerializeField] private float lowJumpMultiplier = 4f;
+        [SerializeField] private float fastFallMultiplier = 8f;
 
         [Header("Ground Check")]
         [SerializeField] private Transform groundCheck;
@@ -33,6 +34,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         private float _horizontalInput;
         private bool _jumpInputPressed;
         private bool _jumpInputHeld;
+        private bool _fastFallHeld;
         private int _airJumpsRemaining;
 
         public bool IsGrounded => _isGrounded;
@@ -90,15 +92,17 @@ namespace Bundles.SimplePlatformer2D.Scripts
                 _horizontalInput = 0f;
                 _jumpInputPressed = false;
                 _jumpInputHeld = false;
+                _fastFallHeld = false;
                 return;
             }
 
-            _horizontalInput = Input.GetAxisRaw("Horizontal");
+            _horizontalInput = Input.GetAxisRaw(GameConstants.Input.Horizontal);
 
-            if (Input.GetButtonDown("Jump"))
+            if (Input.GetButtonDown(GameConstants.Input.Jump))
                 _jumpInputPressed = true;
 
-            _jumpInputHeld = Input.GetButton("Jump");
+            _jumpInputHeld = Input.GetButton(GameConstants.Input.Jump);
+            _fastFallHeld = Input.GetAxisRaw(GameConstants.Input.Vertical) < -GameConstants.Input.AxisThreshold;
         }
 
         private void CheckGround()
@@ -218,7 +222,14 @@ namespace Bundles.SimplePlatformer2D.Scripts
         {
             if (_rb.velocity.y < 0)
             {
-                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (fallMultiplier - 1) * Time.fixedDeltaTime);
+                // Fast fall si le joueur maintient bas
+                float multiplier = _fastFallHeld ? fastFallMultiplier : fallMultiplier;
+                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (multiplier - 1) * Time.fixedDeltaTime);
+            }
+            else if (_rb.velocity.y > 0 && _fastFallHeld)
+            {
+                // Annule la montée si le joueur maintient bas
+                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (fastFallMultiplier - 1) * Time.fixedDeltaTime);
             }
             else if (_rb.velocity.y > 0 && !_jumpInputHeld)
             {

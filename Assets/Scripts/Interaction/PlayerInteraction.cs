@@ -1,3 +1,4 @@
+using Constants;
 using UnityEngine;
 using TMPro;
 
@@ -9,9 +10,6 @@ namespace Bundles.SimplePlatformer2D.Scripts.Interaction
     /// </summary>
     public class PlayerInteraction : MonoBehaviour
     {
-        [Header("Input")]
-        [SerializeField] private KeyCode interactionKey = KeyCode.E;
-
         [Header("UI References")]
         [SerializeField] private GameObject interactionPromptUI;
         [SerializeField] private TextMeshProUGUI interactionPromptText;
@@ -34,7 +32,7 @@ namespace Bundles.SimplePlatformer2D.Scripts.Interaction
                 return;
             }
 
-            if (currentInteractable != null && canInteract && Input.GetKeyDown(interactionKey))
+            if (currentInteractable != null && canInteract && Input.GetButtonDown(GameConstants.Input.Interact))
             {
                 currentInteractable.Interact();
             }

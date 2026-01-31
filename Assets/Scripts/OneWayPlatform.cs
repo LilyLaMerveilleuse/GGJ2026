@@ -1,3 +1,4 @@
+using Constants;
 using UnityEngine;
 
 namespace Bundles.SimplePlatformer2D.Scripts
@@ -6,7 +7,6 @@ namespace Bundles.SimplePlatformer2D.Scripts
     public class OneWayPlatform : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField] private KeyCode dropDownKey = KeyCode.S;
         [SerializeField] private bool allowDropDown = true;
 
         private Collider2D _platformCollider;
@@ -25,7 +25,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         {
             if (!allowDropDown || _playerCollider == null) return;
 
-            bool holdingDown = Input.GetKey(dropDownKey);
+            bool holdingDown = Input.GetAxisRaw(GameConstants.Input.Vertical) < -GameConstants.Input.AxisThreshold;
 
             if (holdingDown && !_isIgnoring)
             {

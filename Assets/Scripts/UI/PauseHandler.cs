@@ -13,7 +13,7 @@ namespace UI
     {
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetButtonDown(GameConstants.Input.Cancel))
             {
                 // Ne pas réagir si on est déjà au menu principal
                 if (SceneManager.GetActiveScene().name == GameConstants.Scenes.MainMenu)
