@@ -319,4 +319,5 @@ MonoBehaviour:
   jumpLandState: JumpLand
   apexThreshold: 3
   jumpStartDuration: 0.15
+  jumpRiseDuration: 0.15
   landingDuration: 0.15

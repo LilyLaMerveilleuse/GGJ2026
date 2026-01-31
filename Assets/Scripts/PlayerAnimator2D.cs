@@ -39,6 +39,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         [Header("Seuils de détection")]
         [SerializeField] private float apexThreshold = 10f;
         [SerializeField] private float jumpStartDuration = 0.1f;
+        [SerializeField] private float jumpRiseDuration = 0.5f;
         [SerializeField] private float landingDuration = 0.1f;
 
         private PlayerController2D _controller;
@@ -49,6 +50,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         private bool _wasGrounded = true;
         private JumpPhase _currentJumpPhase = JumpPhase.Grounded;
         private float _jumpStartTimer = 0f;
+        private float _jumpRiseTimer = 0f;
         private float _landingTimer = 0f;
 
         private void Awake()
@@ -144,6 +146,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
                     if (velocityY > 0)
                     {
                         newPhase = JumpPhase.Rise;
+                        _jumpRiseTimer = jumpRiseDuration;
                     }
                     else
                     {
@@ -151,6 +154,22 @@ namespace Bundles.SimplePlatformer2D.Scripts
                     }
                 }
                 // Si on atterrit pendant le JumpStart
+                else if (isGrounded)
+                {
+                    newPhase = JumpPhase.Land;
+                    _landingTimer = landingDuration;
+                }
+            }
+            // Gestion du timer de montée
+            else if (_currentJumpPhase == JumpPhase.Rise)
+            {
+                _jumpRiseTimer -= Time.deltaTime;
+                // Timer expiré ou vélocité négative → passer à Apex
+                if (_jumpRiseTimer <= 0f || velocityY <= 0)
+                {
+                    newPhase = JumpPhase.Apex;
+                }
+                // Si on atterrit pendant le Rise
                 else if (isGrounded)
                 {
                     newPhase = JumpPhase.Land;
@@ -169,20 +188,12 @@ namespace Bundles.SimplePlatformer2D.Scripts
                 newPhase = JumpPhase.Start;
                 _jumpStartTimer = jumpStartDuration;
             }
-            // En l'air (après JumpStart)
+            // En l'air (Apex ou Fall)
             else if (!isGrounded)
             {
-                if (velocityY > apexThreshold)
-                {
-                    newPhase = JumpPhase.Rise;
-                }
-                else if (velocityY < -apexThreshold)
+                if (velocityY < -apexThreshold)
                 {
                     newPhase = JumpPhase.Fall;
-                }
-                else if (_currentJumpPhase == JumpPhase.Rise)
-                {
-                    newPhase = JumpPhase.Apex;
                 }
             }
             // Au sol (pas en train d'atterrir)
