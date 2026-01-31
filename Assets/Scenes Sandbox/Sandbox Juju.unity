@@ -279,7 +279,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 8
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -409,42 +409,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4276478032081875072, guid: 88c3fa2b8cc92074d8d4c872eb52febe, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1081214423}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88c3fa2b8cc92074d8d4c872eb52febe, type: 3}
---- !u!1 &1081214417 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4276478032081875072, guid: 88c3fa2b8cc92074d8d4c872eb52febe, type: 3}
-  m_PrefabInstance: {fileID: 1047207679}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1081214422 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1850262473832276999, guid: 88c3fa2b8cc92074d8d4c872eb52febe, type: 3}
   m_PrefabInstance: {fileID: 1047207679}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &1081214423
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1081214417}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: c22dad95bbe30ca4c9ff04d554ed8aef, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!60 &1095001505 stripped
 PolygonCollider2D:
   m_CorrespondingSourceObject: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
@@ -915,7 +886,7 @@ PrefabInstance:
       objectReference: {fileID: 1095001505}
     - target: {fileID: 8704014278545095451, guid: 04a3a0b5f682ed841ba1fe7d9c62fe07, type: 3}
       propertyPath: Lens.OrthographicSize
-      value: 10
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8704014278545095451, guid: 04a3a0b5f682ed841ba1fe7d9c62fe07, type: 3}
       propertyPath: Target.TrackingTarget
