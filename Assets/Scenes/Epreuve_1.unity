@@ -146,6 +146,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Commun
       objectReference: {fileID: 0}
+    - target: {fileID: 4995802881727259299, guid: 2a09eeb30177f3441b854e6f5a190cc4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6188912046630863199, guid: 2a09eeb30177f3441b854e6f5a190cc4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -982
