@@ -11,10 +11,6 @@ namespace Bundles.SimplePlatformer2D.Scripts.Player
         [SerializeField] private PlayerController2D controller;
         [SerializeField] private TrailRenderer[] trails;
 
-        [Header("Settings")]
-        [SerializeField] private float fadeInSpeed = 10f;
-        [SerializeField] private float fadeOutSpeed = 5f;
-
         private bool _wasGliding = false;
 
         private void Awake()
