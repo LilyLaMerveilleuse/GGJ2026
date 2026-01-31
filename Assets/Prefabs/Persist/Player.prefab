@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: -8897833324739656244}
   - component: {fileID: 1211226848862591393}
   - component: {fileID: -4703629992519421630}
+  - component: {fileID: -4192336210446288717}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -321,3 +322,20 @@ MonoBehaviour:
   jumpStartDuration: 0.15
   jumpRiseDuration: 0.15
   landingDuration: 0.15
+--- !u!114 &-4192336210446288717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4276478032081875072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb05de0c1f397943809497bcd1f0e1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1211226848862591393}
+  baseAnimator: {fileID: 9100000, guid: 2b47860428859dd49a1f62915562c972, type: 2}
+  maskSkins:
+  - maskType: 1
+    animatorOverride: {fileID: 22100000, guid: 69b79b69f16fe1f4593c25c1210be063, type: 2}

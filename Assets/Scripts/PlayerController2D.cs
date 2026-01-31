@@ -1,3 +1,4 @@
+using System;
 using Constants;
 using Masks;
 using UnityEngine;
@@ -7,6 +8,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController2D : MonoBehaviour
     {
+        public event Action OnJump;
         [Header("Movement")]
         [SerializeField] private float moveSpeed = 10f;
 
@@ -211,6 +213,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
             }
 
             _rb.velocity = new Vector2(_rb.velocity.x, jumpForce);
+            OnJump?.Invoke();
         }
 
         private void Move()

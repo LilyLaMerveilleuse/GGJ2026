@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/sanctuaire_mask.unity
     guid: 59c44688add72f84385bbd411831ea42
+  - enabled: 1
+    path: Assets/Scenes Sandbox/Sandbox Juju.unity
+    guid: 08536af2c0d70c54d8cdd8db54a39924
   m_configObjects: {}
