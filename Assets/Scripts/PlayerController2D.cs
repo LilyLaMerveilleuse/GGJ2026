@@ -31,7 +31,6 @@ namespace Bundles.SimplePlatformer2D.Scripts
         [SerializeField] private LayerMask groundLayer;
 
         private Rigidbody2D _rb;
-        private Collider2D _collider;
         private float _jumpBufferCounter;
         private float _coyoteTimeCounter;
         private bool _isGrounded;
@@ -64,7 +63,6 @@ namespace Bundles.SimplePlatformer2D.Scripts
             DontDestroyOnLoad(gameObject);
 
             _rb = GetComponent<Rigidbody2D>();
-            _collider = GetComponent<Collider2D>();
             _rb.freezeRotation = true;
             _rb.interpolation = RigidbodyInterpolation2D.Interpolate;
             _airJumpsRemaining = 0;

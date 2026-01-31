@@ -18,7 +18,6 @@ namespace Bundles.SimplePlatformer2D.Scripts.Environment
         [SerializeField] private bool stayRevealed = false;
 
         private float _targetAlpha = 1f;
-        private bool _isRevealed = false;
         private Coroutine _fadeCoroutine;
 
         private void Awake()
@@ -58,7 +57,6 @@ namespace Bundles.SimplePlatformer2D.Scripts.Environment
         /// </summary>
         public void Reveal()
         {
-            _isRevealed = true;
             _targetAlpha = hiddenAlpha;
             StartFade();
         }
@@ -68,7 +66,6 @@ namespace Bundles.SimplePlatformer2D.Scripts.Environment
         /// </summary>
         public void Hide()
         {
-            _isRevealed = false;
             _targetAlpha = 1f;
             StartFade();
         }
