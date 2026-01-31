@@ -21,6 +21,9 @@ namespace Bundles.SimplePlatformer2D.Scripts
         [SerializeField] private float lowJumpMultiplier = 4f;
         [SerializeField] private float fastFallMultiplier = 8f;
 
+        [Header("Glide")]
+        [SerializeField] private float glideSpeed = 2f;
+
         [Header("Ground Check")]
         [SerializeField] private Transform groundCheck;
         [SerializeField] private float groundCheckWidth = 0.8f;
@@ -38,10 +41,12 @@ namespace Bundles.SimplePlatformer2D.Scripts
         private bool _jumpInputHeld;
         private bool _fastFallHeld;
         private int _airJumpsRemaining;
+        private bool _isGliding;
 
         public bool IsGrounded => _isGrounded;
         public bool IsMoving => Mathf.Abs(_rb.velocity.x) > GameConstants.Physics.VelocityThreshold;
         public bool IsFalling => _rb.velocity.y < 0;
+        public bool IsGliding => _isGliding;
         public Vector2 Velocity => _rb.velocity;
         public bool ControlsEnabled { get; set; } = true;
 
@@ -223,24 +228,49 @@ namespace Bundles.SimplePlatformer2D.Scripts
 
         private void ApplyJumpPhysics()
         {
+            // Vérifier si on peut planer
+            bool canGlide = MaskInventory.Instance != null &&
+                            MaskInventory.Instance.HasMask(MaskType.Glide) &&
+                            !_isGrounded &&
+                            _jumpInputHeld &&
+                            !_fastFallHeld;
+
             if (_rb.velocity.y < 0)
             {
-                // Fast fall si le joueur maintient bas
-                float multiplier = _fastFallHeld ? fastFallMultiplier : fallMultiplier;
-                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (multiplier - 1) * Time.fixedDeltaTime);
+                // Plané : limiter la vitesse de chute
+                if (canGlide)
+                {
+                    _isGliding = true;
+                    if (_rb.velocity.y < -glideSpeed)
+                    {
+                        _rb.velocity = new Vector2(_rb.velocity.x, -glideSpeed);
+                    }
+                }
+                else
+                {
+                    _isGliding = false;
+                    // Fast fall si le joueur maintient bas
+                    float multiplier = _fastFallHeld ? fastFallMultiplier : fallMultiplier;
+                    _rb.velocity += Vector2.up * (Physics2D.gravity.y * (multiplier - 1) * Time.fixedDeltaTime);
+                }
             }
-            else if (_rb.velocity.y > 0 && _fastFallHeld)
+            else
             {
-                // Annule la montée si le joueur maintient bas
-                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (fastFallMultiplier - 1) * Time.fixedDeltaTime);
-            }
-            else if (_rb.velocity.y > 0 && !_jumpInputHeld)
-            {
-                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime);
-            }
-            else if (_rb.velocity.y > 0 && _jumpInputHeld)
-            {
-                _rb.velocity += Vector2.up * (Physics2D.gravity.y * (riseMultiplier - 1) * Time.fixedDeltaTime);
+                _isGliding = false;
+
+                if (_rb.velocity.y > 0 && _fastFallHeld)
+                {
+                    // Annule la montée si le joueur maintient bas
+                    _rb.velocity += Vector2.up * (Physics2D.gravity.y * (fastFallMultiplier - 1) * Time.fixedDeltaTime);
+                }
+                else if (_rb.velocity.y > 0 && !_jumpInputHeld)
+                {
+                    _rb.velocity += Vector2.up * (Physics2D.gravity.y * (lowJumpMultiplier - 1) * Time.fixedDeltaTime);
+                }
+                else if (_rb.velocity.y > 0 && _jumpInputHeld)
+                {
+                    _rb.velocity += Vector2.up * (Physics2D.gravity.y * (riseMultiplier - 1) * Time.fixedDeltaTime);
+                }
             }
         }
 

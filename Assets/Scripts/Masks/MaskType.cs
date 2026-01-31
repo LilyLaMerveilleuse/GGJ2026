@@ -6,10 +6,7 @@ namespace Masks
     public enum MaskType
     {
         None = 0,
-        DoubleJump = 1,    // Premier masque - permet le double saut
-        // Ajouter d'autres masques ici au fur et à mesure
-        // WallJump = 2,
-        // Dash = 3,
-        // etc.
+        DoubleJump = 1,    // Permet le double saut
+        Glide = 2,         // Permet de planer en maintenant saut en l'air
     }
 }
