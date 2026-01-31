@@ -54,6 +54,12 @@ namespace SaveSystem
             // Gérer les objets persistants selon la scène
             SetPersistentObjectsActive(!isMainMenu);
 
+            // Réactiver les contrôles du joueur
+            if (!isMainMenu && Bundles.SimplePlatformer2D.Scripts.PlayerController2D.Instance != null)
+            {
+                Bundles.SimplePlatformer2D.Scripts.PlayerController2D.Instance.ControlsEnabled = true;
+            }
+
             // Met à jour la scène courante dans la sauvegarde
             if (CurrentSave != null && !isMainMenu)
             {
