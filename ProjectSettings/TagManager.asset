@@ -42,3 +42,24 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UI
+    uniqueID: 3127559771
+    locked: 0
+  - name: Player
+    uniqueID: 1368239541
+    locked: 0
+  - name: HiddenWall
+    uniqueID: 1045176533
+    locked: 0
+  - name: Decor
+    uniqueID: 614579901
+    locked: 0
+  - name: Wall
+    uniqueID: 561106461
+    locked: 0
+  - name: Paralax1
+    uniqueID: 1242701931
+    locked: 0
+  - name: Paralax2
+    uniqueID: 2744398839
+    locked: 0

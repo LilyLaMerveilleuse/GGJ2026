@@ -35,6 +35,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         [SerializeField] private string jumpApexState = "JumpApex";
         [SerializeField] private string jumpFallState = "JumpFall";
         [SerializeField] private string jumpLandState = "JumpLand";
+        [SerializeField] private string glideState = "Glide";
 
         [Header("Seuils de détection")]
         [SerializeField] private float apexThreshold = 10f;
@@ -52,6 +53,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         private float _jumpStartTimer = 0f;
         private float _jumpRiseTimer = 0f;
         private float _landingTimer = 0f;
+        private bool _wasGliding = false;
 
         private void Awake()
         {
@@ -127,12 +129,28 @@ namespace Bundles.SimplePlatformer2D.Scripts
             bool isMoving = Mathf.Abs(horizontalInput) > 0.01f;
             bool isGrounded = _controller.IsGrounded;
             float velocityY = _controller.Velocity.y;
+            bool isGliding = _controller.IsGliding;
 
-            // Gestion des phases de saut
-            UpdateJumpPhase(isGrounded, velocityY);
+            // Gestion du glide (priorité sur les phases de saut)
+            if (isGliding && !_wasGliding)
+            {
+                _animator.Play(glideState, 0, 0f);
+            }
+            else if (!isGliding && _wasGliding)
+            {
+                // Sortie du glide → reprendre l'animation de chute
+                _animator.Play(jumpFallState, 0, 0f);
+            }
+            _wasGliding = isGliding;
+
+            // Gestion des phases de saut (seulement si on ne glide pas)
+            if (!isGliding)
+            {
+                UpdateJumpPhase(isGrounded, velocityY);
+            }
 
             // Animation au sol
-            if (_currentJumpPhase == JumpPhase.Grounded)
+            if (_currentJumpPhase == JumpPhase.Grounded && !isGliding)
             {
                 if (isMoving != _wasMoving)
                 {

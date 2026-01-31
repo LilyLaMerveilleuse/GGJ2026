@@ -99,7 +99,7 @@ namespace Bundles.SimplePlatformer2D.Scripts.Player
 
         /// <summary>
         /// Rafraîchit le skin selon les masques possédés.
-        /// Applique le dernier masque obtenu.
+        /// Applique le masque avec la priorité la plus haute (ID le plus élevé).
         /// </summary>
         public void RefreshSkin()
         {
@@ -107,18 +107,25 @@ namespace Bundles.SimplePlatformer2D.Scripts.Player
 
             var ownedMasks = MaskInventory.Instance.GetOwnedMasks();
 
-            // Chercher le premier masque possédé qui a un skin
-            foreach (var skin in maskSkins)
+            // Trouver le masque possédé avec l'ID le plus élevé (priorité)
+            MaskType highestMask = MaskType.None;
+            foreach (var mask in ownedMasks)
             {
-                if (ownedMasks.Contains(skin.maskType))
+                if (mask > highestMask)
                 {
-                    ApplySkin(skin.maskType);
-                    return;
+                    highestMask = mask;
                 }
             }
 
-            // Aucun masque avec skin → skin de base
-            ResetToBaseSkin();
+            // Appliquer le skin si on a trouvé un masque
+            if (highestMask != MaskType.None)
+            {
+                ApplySkin(highestMask);
+            }
+            else
+            {
+                ResetToBaseSkin();
+            }
         }
     }
 }
