@@ -18,6 +18,12 @@ namespace Bundles.SimplePlatformer2D.Scripts.Interaction
 
         private Interactable currentInteractable;
         private bool canInteract = true;
+        private Camera _mainCamera;
+
+        private void Awake()
+        {
+            _mainCamera = Camera.main;
+        }
 
         private void Update()
         {
@@ -105,11 +111,11 @@ namespace Bundles.SimplePlatformer2D.Scripts.Interaction
 
         private void UpdatePromptPosition(Interactable interactable)
         {
-            if (interactionPromptUI == null || Camera.main == null) return;
+            if (interactionPromptUI == null || _mainCamera == null) return;
 
             // Convert world position to screen position
             Vector3 worldPos = interactable.transform.position + (Vector3)interactable.PromptOffset;
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+            Vector3 screenPos = _mainCamera.WorldToScreenPoint(worldPos);
 
             interactionPromptUI.transform.position = screenPos;
         }

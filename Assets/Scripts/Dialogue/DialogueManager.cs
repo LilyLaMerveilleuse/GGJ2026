@@ -44,6 +44,15 @@ namespace Bundles.SimplePlatformer2D.Scripts.Dialogue
             DontDestroyOnLoad(gameObject);
         }
 
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+            StopTypewriter();
+        }
+
         private void Update()
         {
             if (!isDialogueActive) return;

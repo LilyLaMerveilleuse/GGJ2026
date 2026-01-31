@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using SaveSystem;
 using UnityEngine;
 using UnityEngine.Events;
@@ -27,6 +28,14 @@ namespace Masks
             }
             Instance = this;
             DontDestroyOnLoad(gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
         }
 
         /// <summary>
@@ -64,11 +73,11 @@ namespace Masks
         }
 
         /// <summary>
-        /// Retourne la liste des masques possédés.
+        /// Retourne la liste des masques possédés (lecture seule).
         /// </summary>
-        public List<MaskType> GetOwnedMasks()
+        public IReadOnlyCollection<MaskType> GetOwnedMasks()
         {
-            return new List<MaskType>(ownedMasks);
+            return ownedMasks;
         }
 
         /// <summary>

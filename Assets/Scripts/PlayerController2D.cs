@@ -1,3 +1,4 @@
+using Constants;
 using Masks;
 using UnityEngine;
 
@@ -35,7 +36,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         private int _airJumpsRemaining;
 
         public bool IsGrounded => _isGrounded;
-        public bool IsMoving => Mathf.Abs(_rb.velocity.x) > 0.1f;
+        public bool IsMoving => Mathf.Abs(_rb.velocity.x) > GameConstants.Physics.VelocityThreshold;
         public bool IsFalling => _rb.velocity.y < 0;
         public Vector2 Velocity => _rb.velocity;
         public bool ControlsEnabled { get; set; } = true;
@@ -57,6 +58,14 @@ namespace Bundles.SimplePlatformer2D.Scripts
             _collider = GetComponent<Collider2D>();
             _rb.freezeRotation = true;
             _airJumpsRemaining = 0;
+        }
+
+        private void OnDestroy()
+        {
+            if (_instance == this)
+            {
+                _instance = null;
+            }
         }
 
         private void Update()
@@ -96,7 +105,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
             _wasGrounded = _isGrounded;
 
             // Ne pas considérer grounded si on monte (évite reset des sauts en traversant one-way platforms)
-            if (_rb.velocity.y > 0.1f)
+            if (_rb.velocity.y > GameConstants.Physics.VelocityThreshold)
             {
                 _isGrounded = false;
                 return;
@@ -106,7 +115,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
                 ? (Vector2)groundCheck.position
                 : (Vector2)transform.position + Vector2.down * 0.5f;
 
-            _isGrounded = Physics2D.BoxCast(origin, new Vector2(groundCheckWidth, 0.02f), 0f, Vector2.down, groundCheckDistance, groundLayer);
+            _isGrounded = Physics2D.BoxCast(origin, new Vector2(groundCheckWidth, GameConstants.Physics.GroundCheckBoxHeight), 0f, Vector2.down, groundCheckDistance, groundLayer);
 
             if (_isGrounded && !_wasGrounded)
                 OnLand();

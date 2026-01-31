@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using Constants;
 using UnityEngine;
 
 namespace SaveSystem
@@ -30,6 +31,14 @@ namespace SaveSystem
 
             EnsureSaveDirectoryExists();
             LoadAllSaves();
+        }
+
+        private void OnDestroy()
+        {
+            if (Instance == this)
+            {
+                Instance = null;
+            }
         }
 
         private string GetSaveFolderPath()
@@ -130,11 +139,11 @@ namespace SaveSystem
         /// <summary>
         /// Crée une nouvelle sauvegarde dans un slot.
         /// </summary>
-        public SaveData CreateNewSave(int slotIndex, string initialScene = "Village")
+        public SaveData CreateNewSave(int slotIndex, string initialScene = null)
         {
             var save = new SaveData(slotIndex)
             {
-                currentScene = initialScene
+                currentScene = initialScene ?? GameConstants.Scenes.Village
             };
 
             if (Save(save))

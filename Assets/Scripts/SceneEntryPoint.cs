@@ -17,6 +17,14 @@ namespace Bundles.SimplePlatformer2D.Scripts
             _current = this;
         }
 
+        private void OnDisable()
+        {
+            if (_current == this)
+            {
+                _current = null;
+            }
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.cyan;

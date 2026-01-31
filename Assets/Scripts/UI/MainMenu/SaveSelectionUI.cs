@@ -51,8 +51,11 @@ namespace UI.MainMenu
 
         private void OnDestroy()
         {
+            if (saveSlots == null) return;
+
             foreach (var slot in saveSlots)
             {
+                if (slot == null) continue;
                 slot.OnSlotClicked -= HandleSlotClicked;
                 slot.OnDeleteClicked -= HandleDeleteClicked;
             }

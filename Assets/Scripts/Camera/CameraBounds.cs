@@ -25,6 +25,14 @@ namespace Bundles.SimplePlatformer2D.Scripts.CameraSystem
             _current = this;
         }
 
+        private void OnDisable()
+        {
+            if (_current == this)
+            {
+                _current = null;
+            }
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = new Color(1f, 0.5f, 0f, 0.3f);

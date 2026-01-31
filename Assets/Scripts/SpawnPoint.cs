@@ -17,6 +17,14 @@ namespace Bundles.SimplePlatformer2D.Scripts
             _currentSpawnPoint = this;
         }
 
+        private void OnDisable()
+        {
+            if (_currentSpawnPoint == this)
+            {
+                _currentSpawnPoint = null;
+            }
+        }
+
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.green;

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Constants;
 
 namespace SaveSystem
 {
@@ -23,7 +24,7 @@ namespace SaveSystem
             createdAt = DateTime.Now.ToString("o");
             lastPlayedAt = createdAt;
             totalPlayTime = 0f;
-            currentScene = "Village";
+            currentScene = GameConstants.Scenes.Village;
             posX = posY = posZ = 0f;
             ownedMasks = new List<int>();
         }
