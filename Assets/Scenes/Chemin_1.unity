@@ -396,7 +396,7 @@ Transform:
   m_GameObject: {fileID: 346724575}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 56.117615, y: 2.74822, z: -10}
+  m_LocalPosition: {x: 8.743377, y: 0.03715, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -492,7 +492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[0].y
-      value: -5.403571
+      value: -11.812395
       objectReference: {fileID: 0}
     - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].x
@@ -500,7 +500,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[1].y
-      value: 9.938952
+      value: 14.616511
+      objectReference: {fileID: 0}
+    - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].x
+      value: 5.0411625
+      objectReference: {fileID: 0}
+    - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
+      propertyPath: m_Points.m_Paths.Array.data[0].Array.data[2].y
+      value: 14.810468
       objectReference: {fileID: 0}
     - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].x
@@ -508,7 +516,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].y
-      value: 10.342869
+      value: 14.360338
       objectReference: {fileID: 0}
     - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[4].x
@@ -520,19 +528,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[5].x
-      value: -10.320821
+      value: -10.229283
       objectReference: {fileID: 0}
     - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[5].y
-      value: -5.210455
+      value: -11.70944
       objectReference: {fileID: 0}
     - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[6].x
-      value: 18.923834
+      value: 19.572817
       objectReference: {fileID: 0}
     - target: {fileID: 7088466569358690926, guid: 85d1c4bc1c2008b4f94c409591db6c95, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[6].y
-      value: -5.4986043
+      value: -11.922531
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
