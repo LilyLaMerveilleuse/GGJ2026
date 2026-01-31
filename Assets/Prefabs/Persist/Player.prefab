@@ -215,6 +215,7 @@ MonoBehaviour:
   fallMultiplier: 5
   riseMultiplier: 2.5
   lowJumpMultiplier: 4
+  fastFallMultiplier: 8
   groundCheck: {fileID: 3512375726642687857}
   groundCheckWidth: 0.8
   groundCheckDistance: 0.1
@@ -233,7 +234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36251c0e825fa1e4c88c48f8666cef50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionKey: 101
   interactionPromptUI: {fileID: 0}
   interactionPromptText: {fileID: 0}
 --- !u!114 &-2192234054357702633
@@ -310,3 +310,13 @@ MonoBehaviour:
   speedParam: Speed
   groundedParam: IsGrounded
   verticalVelocityParam: VerticalVelocity
+  idleState: Idle
+  walkState: Walk
+  jumpStartState: JumpStart
+  jumpRiseState: JumpRise
+  jumpApexState: JumpApex
+  jumpFallState: JumpFall
+  jumpLandState: JumpLand
+  apexThreshold: 3
+  jumpStartDuration: 0.15
+  landingDuration: 0.15
