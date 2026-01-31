@@ -1,5 +1,6 @@
 using System.Collections;
 using Bundles.SimplePlatformer2D.Scripts.UI;
+using SaveSystem;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -74,6 +75,12 @@ namespace Bundles.SimplePlatformer2D.Scripts.Player
                     screenFader.FadeIn();
                 }
             }
+            else if (GameState.Instance != null && GameState.Instance.ShouldLoadPositionFromSave)
+            {
+                // Loading from save: teleport to saved position
+                TeleportToSavedPosition();
+                GameState.Instance.ShouldLoadPositionFromSave = false;
+            }
             else
             {
                 // Normal scene entry: teleport to entry point
@@ -94,6 +101,20 @@ namespace Bundles.SimplePlatformer2D.Scripts.Player
             if (SceneEntryPoint.Current != null)
             {
                 transform.position = SceneEntryPoint.Current.transform.position;
+            }
+        }
+
+        private void TeleportToSavedPosition()
+        {
+            var savedPos = GameState.Instance.GetSavedPosition();
+            // If saved position is zero (new game), use entry point instead
+            if (savedPos == Vector3.zero)
+            {
+                TeleportToEntryPoint();
+            }
+            else
+            {
+                transform.position = savedPos;
             }
         }
 
