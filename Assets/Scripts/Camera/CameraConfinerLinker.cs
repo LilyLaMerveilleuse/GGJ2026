@@ -64,17 +64,28 @@ namespace Bundles.SimplePlatformer2D.Scripts.CameraSystem
 
             Vector3 playerPos = player.transform.position;
 
-            // Téléporter la caméra principale
+            // Forcer la position de Cinemachine instantanément
+            if (cinemachineCamera != null)
+            {
+                // Calculer la position cible de la caméra (avec le bon Z)
+                float cameraZ = Camera.main != null ? Camera.main.transform.position.z : -10f;
+                Vector3 targetPos = new Vector3(playerPos.x, playerPos.y, cameraZ);
+
+                // Forcer la position sans transition
+                cinemachineCamera.ForceCameraPosition(targetPos, Quaternion.identity);
+
+                // Notifier que la cible s'est téléportée (pour reset le damping interne)
+                if (cinemachineCamera.Follow != null)
+                {
+                    cinemachineCamera.OnTargetObjectWarped(cinemachineCamera.Follow, Vector3.zero);
+                }
+            }
+
+            // Téléporter aussi la caméra principale directement
             if (Camera.main != null)
             {
                 Vector3 camPos = Camera.main.transform.position;
                 Camera.main.transform.position = new Vector3(playerPos.x, playerPos.y, camPos.z);
-            }
-
-            // Notifier Cinemachine que la cible s'est téléportée
-            if (cinemachineCamera != null && cinemachineCamera.Follow != null)
-            {
-                cinemachineCamera.OnTargetObjectWarped(cinemachineCamera.Follow, playerPos - cinemachineCamera.Follow.position);
             }
         }
     }
