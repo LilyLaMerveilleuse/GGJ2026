@@ -101,7 +101,7 @@ namespace UI.MainMenu
 
             var lastPlayed = save.GetLastPlayedDate();
             var playTime = save.GetFormattedPlayTime();
-            if (detailsText != null) detailsText.text = $"{lastPlayed:dd/MM/yyyy HH:mm}\nTemps: {playTime}";
+            if (detailsText != null) detailsText.text = $"{lastPlayed:dd/MM/yyyy}\nTime: {playTime}";
         }
     }
 }
