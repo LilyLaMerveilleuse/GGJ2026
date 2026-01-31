@@ -17,7 +17,7 @@ namespace Bundles.SimplePlatformer2D.Scripts
         private PlayerController2D _controller;
         private SpriteRenderer _spriteRenderer;
         private Animator _animator;
-        private bool _facingRight = true;
+        private bool _facingRight = false;
 
         private void Awake()
         {
