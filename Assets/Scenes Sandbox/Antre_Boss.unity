@@ -11934,6 +11934,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PNJ
       objectReference: {fileID: 0}
+    - target: {fileID: 6057893631418192431, guid: 562020555660f164ca31869d89c0c996, type: 3}
+      propertyPath: interactionPrompt
+      value: BOSS
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
